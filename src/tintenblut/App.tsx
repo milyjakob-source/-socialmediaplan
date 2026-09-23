@@ -7,6 +7,7 @@ import { CrmProvider, type CrmBackend } from '../data/CrmContext';
 import { ZugangError } from '../data/sheets/scriptSheets';
 import { errorMessage } from '../lib/errors';
 import { useIch } from '../lib/useIch';
+import { useTheme } from '../lib/useTheme';
 import { SocialAufgabenPage } from '../social/AufgabenPage';
 import { SocialInhaltDetailPage } from '../social/InhaltDetailPage';
 import { SocialInhaltePage } from '../social/InhaltePage';
@@ -48,10 +49,28 @@ function IchWahl() {
   );
 }
 
+/** Same key as the script in tintenblut/index.html, which sets the theme before the first paint. */
+const THEME_KEY = 'tintenblut-social.theme';
+
+function Darstellung() {
+  const [theme, setTheme] = useTheme(THEME_KEY, 'dark');
+  return (
+    <div className="segmented theme-switch tb-theme" role="radiogroup" aria-label="Darstellung">
+      <button type="button" role="radio" aria-checked={theme === 'light'} className={theme === 'light' ? 'is-active' : ''} onClick={() => setTheme('light')}>
+        Hell
+      </button>
+      <button type="button" role="radio" aria-checked={theme === 'dark'} className={theme === 'dark' ? 'is-active' : ''} onClick={() => setTheme('dark')}>
+        Dunkel
+      </button>
+    </div>
+  );
+}
+
 function Rahmen() {
   return (
     <div className="app">
-      <aside className="sidebar tb-sidebar">
+      {/* The sidebar stays ink-dark in both themes, like the hub's espresso sidebar. */}
+      <aside className="sidebar tb-sidebar" data-theme="dark">
         <div className="brand">
           <NavLink to="/social" end className="lockup tb-lockup" aria-label="Tintenblut Social – Übersicht">
             <img src="./logo.webp" alt="" />
@@ -70,6 +89,7 @@ function Rahmen() {
         </nav>
         <div className="sidebar-footer">
           <IchWahl />
+          <Darstellung />
           <p className="tb-fuss">Tintenblut Tattoo · Stuttgart-Süd</p>
         </div>
       </aside>

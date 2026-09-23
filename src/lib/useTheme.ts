@@ -24,9 +24,9 @@ function mitUebergang(change: () => void) {
   window.setTimeout(() => root.classList.remove('theme-switching'), 400);
 }
 
-function read(): Theme | null {
+function read(key: string): Theme | null {
   try {
-    const value = localStorage.getItem(KEY);
+    const value = localStorage.getItem(key);
     if (value === 'espresso') return 'dark'; // stored by the first redesign draft
     return value === 'light' || value === 'dark' ? value : null;
   } catch {
@@ -34,11 +34,14 @@ function read(): Theme | null {
   }
 }
 
-/** The active theme: picked once in this browser, otherwise light or dark following the system's dark mode. */
-export function useTheme(): [Theme, (theme: Theme) => void] {
-  const [gewaehlt, setGewaehlt] = useState<Theme | null>(read);
+/**
+ * The active theme: picked once in this browser, otherwise `standard`, otherwise light or dark following the
+ * system's dark mode. Client builds pass their own storage key and default.
+ */
+export function useTheme(key = KEY, standard?: Theme): [Theme, (theme: Theme) => void] {
+  const [gewaehlt, setGewaehlt] = useState<Theme | null>(() => read(key));
   const [system, setSystem] = useState<Theme>(() => (dark().matches ? 'dark' : 'light'));
-  const theme = gewaehlt ?? system;
+  const theme = gewaehlt ?? standard ?? system;
 
   useEffect(() => {
     const media = dark();
@@ -56,11 +59,11 @@ export function useTheme(): [Theme, (theme: Theme) => void] {
     if (next === document.documentElement.dataset.theme) return;
     mitUebergang(() => flushSync(() => setGewaehlt(next)));
     try {
-      localStorage.setItem(KEY, next);
+      localStorage.setItem(key, next);
     } catch {
       // Storage blocked: the choice lasts until reload.
     }
-  }, []);
+  }, [key]);
 
   return [theme, setTheme];
 }

@@ -3,14 +3,47 @@
  * Warm near-black ink, ivory bone, one blood-red accent; Bodoni Moda for headings, Newsreader for text,
  * Space Mono for labels and controls. Only tokens and type are swapped – the layout stays the hub's.
  */
-:root,
-[data-theme='dark'] {
+:root {
   --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
   --font-sans: 'Newsreader', 'Iowan Old Style', Georgia, serif;
   --font-mono: 'Space Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   --tb-red: #8a1f1f;
   --tb-red-text: #dd5232;
+}
 
+/* Light: the printed plate – ink on bone paper, the red of the logo's „blut“ as the one accent. */
+:root,
+[data-theme='light'] {
+  --surface: #f4efe4;
+  --raised: #fbf8f1;
+  --sunken: #ece6d8;
+  --ink: #17140f;
+  --ink-muted: rgb(23 20 15 / 68%);
+  --line: rgb(23 20 15 / 13%);
+  --line-strong: rgb(23 20 15 / 32%);
+  --rule: rgb(23 20 15 / 55%);
+  --hover: rgb(23 20 15 / 5%);
+  --accent: var(--tb-red);
+  --on-accent: #f4efe4;
+  --focus: var(--tb-red);
+  --panel: var(--tb-red);
+  --on-panel: #f4efe4;
+  --on-panel-muted: rgb(244 239 228 / 75%);
+  --panel-border: var(--tb-red);
+  --highlight: rgb(138 31 31 / 10%);
+  --on-highlight: #7a1c1c;
+  --selection-bg: var(--tb-red);
+  --selected-bg: #17140f;
+  --selected-ink: #f4efe4;
+  --toast-bg: #17140f;
+  --toast-ink: #f4efe4;
+  --toast-bar: var(--tb-red-text);
+  --scrim: rgb(23 20 15 / 55%);
+  color-scheme: light;
+}
+
+/* Dark: the engraving plate of the website – warm ink, bone type. */
+[data-theme='dark'] {
   --surface: #0d0c0a;
   --raised: #17140f;
   --sunken: #120f0c;
