@@ -30,14 +30,20 @@ interface CrmContextValue {
 
 const CrmContext = createContext<CrmContextValue | null>(null);
 
+/** Service and raw sheet access; a client build brings its own instead of Google login or demo data. */
+export interface CrmBackend {
+  service: CrmService;
+  sheets: SheetsApi;
+}
+
 // Colleagues' changes show up without reloading the page; at 60 reads/minute per person this stays far below Google's limit.
 const REFRESH_INTERVAL_MS = 120_000;
 const REFRESH_ON_FOCUS_AFTER_MS = 30_000;
 
-export function CrmProvider({ children }: { children: ReactNode }) {
+export function CrmProvider({ children, backend: eigenesBackend }: { children: ReactNode; backend?: () => Promise<CrmBackend> }) {
   const { getToken, userEmail, expire } = useAuth();
   const toast = useToast();
-  const [backend, setBackend] = useState<{ service: CrmService; sheets: SheetsApi } | null>(null);
+  const [backend, setBackend] = useState<CrmBackend | null>(null);
   const [db, setDb] = useState<Database | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -45,7 +51,12 @@ export function CrmProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let cancelled = false;
-    if (isDemo) {
+    if (eigenesBackend) {
+      eigenesBackend().then(
+        (eigenes) => !cancelled && setBackend(eigenes),
+        (err: Error) => !cancelled && (setError(err), setLoading(false)),
+      );
+    } else if (isDemo) {
       createDemoBackend(userEmail).then(
         (demo) => !cancelled && setBackend(demo),
         (err: Error) => !cancelled && (setError(err), setLoading(false)),
@@ -64,7 +75,7 @@ export function CrmProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [getToken, userEmail]);
+  }, [getToken, userEmail, eigenesBackend]);
 
   const refresh = useCallback(async () => {
     if (!backend) return;

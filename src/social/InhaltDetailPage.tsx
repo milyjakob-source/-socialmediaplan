@@ -7,6 +7,7 @@ import {
   INHALT_STATUS,
   LEERE_SLIDE,
   SAEULEN,
+  SOCIAL_PROFIL,
   formatLabel,
   inhaltName,
   kanalLabel,
@@ -145,7 +146,7 @@ function Formular({ inhalt, aendern, onFertig }: { inhalt: SocialInhalt; aendern
             <input value={werte.titel} onChange={(e) => setze('titel', e.target.value)} autoComplete="off" />
           </Field>
           <Field label="Serie">
-            <input value={werte.serie} onChange={(e) => setze('serie', e.target.value)} autoComplete="off" placeholder="UMZUGSPLAN #2" />
+            <input value={werte.serie} onChange={(e) => setze('serie', e.target.value)} autoComplete="off" placeholder={SOCIAL_PROFIL.beispielSerie} />
           </Field>
           <Field label="Säule">
             <select value={werte.saeule ?? ''} onChange={(e) => setze('saeule', e.target.value ? Number(e.target.value) : null)}>

@@ -6,6 +6,7 @@ import { useCrm } from '../data/CrmContext';
 import { isoDate } from '../data/ids';
 import {
   SAEULEN,
+  SOCIAL_PROFIL,
   dmsJeStichwort,
   inhaltById,
   istVeroeffentlicht,
@@ -69,7 +70,7 @@ export function SocialUebersichtPage() {
   return (
     <SocialSeite
       title="Social Media"
-      subtitle="Der 90-Tage-Plan vom 22.09. bis 20.12.2026. Drei Posts und fünf Stories pro Woche, Instagram als Hauptkanal, LinkedIn als Zweitverwertung."
+      subtitle={SOCIAL_PROFIL.uebersichtUntertitel}
       actions={
         <>
           <button type="button" className="button" onClick={() => setDialog({ art: 'plan' })}>

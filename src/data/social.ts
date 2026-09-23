@@ -1,5 +1,6 @@
 import { isIsoDate } from './ids';
 import { ValidationError } from './errors';
+import { VELONIFY_PROFIL, type Option, type Saeule, type SocialProfil } from './socialProfil';
 import type {
   SocialAufgabe,
   SocialAufgabeInput,
@@ -23,31 +24,16 @@ import type {
  * dates, numbers – lives in the sheet; only what business logic depends on is written down here.
  */
 
-export interface Saeule {
-  nr: number;
-  name: string;
-  kurz: string;
-  /** Share of all posts, in percent */
-  anteil: number;
-  zweck: string;
-}
+export type { Saeule, SocialProfil } from './socialProfil';
 
-export const SAEULEN: readonly Saeule[] = [
-  { nr: 1, name: 'Umzug ohne Verlust', kurz: 'UMZUG', anteil: 35, zweck: 'Umzügler abholen, Angst vor dem Umzug in einen Plan verwandeln' },
-  { nr: 2, name: 'Daten, die stimmen', kurz: 'DATEN', anteil: 25, zweck: 'Shopify-Bestand abholen, zeigen, dass wir Fehler finden, die andere übersehen' },
-  { nr: 3, name: 'Mehr aus dem Shop', kurz: 'SHOP', anteil: 20, zweck: 'Zeigen, dass wir nach dem Livegang weiterarbeiten' },
-  { nr: 4, name: 'Kein Umweg', kurz: 'UMWEG', anteil: 20, zweck: 'Den Unterschied zu anderen Agenturen greifbar machen' },
-];
+/** The brand the tool currently speaks for. Live bindings: a client build swaps them once before rendering. */
+export let SOCIAL_PROFIL: SocialProfil = VELONIFY_PROFIL;
+export let SAEULEN: readonly Saeule[] = VELONIFY_PROFIL.saeulen;
 
 export const saeule = (nr: number | null) => SAEULEN.find((s) => s.nr === nr) ?? null;
 export const saeuleLabel = (nr: number | null) => (nr === null ? '–' : `${nr} · ${saeule(nr)?.name ?? 'Unbekannt'}`);
 
-export const KANAELE = [
-  { wert: 'instagram', label: 'Instagram' },
-  { wert: 'ig_story', label: 'IG Story' },
-  { wert: 'linkedin', label: 'LinkedIn' },
-  { wert: 'intern', label: 'Intern' },
-] as const;
+export let KANAELE: readonly Option[] = VELONIFY_PROFIL.kanaele;
 
 export const FORMATE = [
   { wert: 'karussell', label: 'Karussell' },
@@ -89,16 +75,23 @@ export const AUFGABEN_BEREICHE = [
   { wert: 'ritual', label: 'Immer wieder' },
 ] as const;
 
-export const DRINGLICHKEITEN = [
-  { wert: 'sofort', label: 'Sofort' },
-  { wert: 'diese_woche', label: 'Diese Woche' },
-  { wert: 'vor_0110', label: 'Vor 01.10.' },
-  { wert: 'vor_1310', label: 'Vor 13.10.' },
-  { wert: 'spaeter', label: 'Später' },
-] as const;
+export let DRINGLICHKEITEN: readonly Option[] = VELONIFY_PROFIL.dringlichkeiten;
 
 /** Keywords people send by DM. Free text is allowed too – these are the ones the plan asks for. */
-export const STICHWORTE = ['UMZUG', 'DATEN', 'FLOWS'] as const;
+export let STICHWORTE: readonly string[] = VELONIFY_PROFIL.stichworte;
+
+/** Where every link from social leads: for Velonify the contact section with the booking link. */
+export let SOCIAL_ZIEL_STANDARD = VELONIFY_PROFIL.zielStandard;
+
+/** Switches the tool to another brand. Call once, before the first render. */
+export function aktiviereSocialProfil(profil: SocialProfil): void {
+  SOCIAL_PROFIL = profil;
+  SAEULEN = profil.saeulen;
+  KANAELE = profil.kanaele;
+  DRINGLICHKEITEN = profil.dringlichkeiten;
+  STICHWORTE = profil.stichworte;
+  SOCIAL_ZIEL_STANDARD = profil.zielStandard;
+}
 
 const label = (liste: readonly { wert: string; label: string }[], wert: string) => liste.find((e) => e.wert === wert)?.label ?? (wert || '–');
 
@@ -206,11 +199,13 @@ export function ueberfaelligeEintraege(plan: readonly SocialPlanEintrag[], heute
 
 export const istErledigt = (aufgabe: SocialAufgabe) => Boolean(aufgabe.erledigt_am);
 
-const DRINGLICHKEIT_RANG = new Map<string, number>(DRINGLICHKEITEN.map((d, i) => [d.wert, i]));
-
 /** Open first, then by urgency and position; done tasks sink to the bottom. */
 export function sortiereAufgaben(aufgaben: readonly SocialAufgabe[], mitArchivierten = false): SocialAufgabe[] {
-  const rang = (a: SocialAufgabe) => DRINGLICHKEIT_RANG.get(a.dringlichkeit) ?? DRINGLICHKEITEN.length;
+  const reihenfolge = DRINGLICHKEITEN.map((d) => d.wert);
+  const rang = (a: SocialAufgabe) => {
+    const i = reihenfolge.indexOf(a.dringlichkeit);
+    return i === -1 ? reihenfolge.length : i;
+  };
   return sichtbar(aufgaben, mitArchivierten).sort(
     (a, b) => Number(istErledigt(a)) - Number(istErledigt(b)) || rang(a) - rang(b) || nachSortierung(a, b),
   );
@@ -377,11 +372,9 @@ export function findeWert(werte: readonly SocialWert[], schluessel: Pick<SocialW
 
 // ─── UTM-Links ───────────────────────────────────────────────────────────────
 
-/** Where every link from social leads: the contact section with the booking link. */
-export const SOCIAL_ZIEL_STANDARD = 'https://velonify.de/#kontakt';
-
 export interface UtmEingabe {
-  quelle: 'instagram' | 'linkedin';
+  /** instagram, linkedin, facebook … – lower case ends up in GA4 as is */
+  quelle: string;
   kampagne: string;
   inhalt?: string;
 }

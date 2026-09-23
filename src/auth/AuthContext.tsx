@@ -129,6 +129,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+/**
+ * For client builds without Google login: everyone who opens the page works as the same fixed user.
+ * Who did what is picked per browser (useIch), not signed in.
+ */
+export function OhneLoginProvider({ user, children }: { user: GoogleUser; children: ReactNode }) {
+  const value = useMemo<AuthContextValue>(
+    () => ({
+      state: { status: 'demo', user },
+      googleReady: false,
+      signIn: async () => {},
+      signOut: () => {},
+      expire: () => {},
+      getToken: async () => {
+        throw new AuthExpiredError();
+      },
+      userEmail: () => user.email,
+    }),
+    [user],
+  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
 export function useAuth(): AuthContextValue {
   const context = useContext(AuthContext);
   if (!context) throw new Error('useAuth must be used inside AuthProvider');

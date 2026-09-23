@@ -6,6 +6,15 @@ export default defineConfig({
   base: './',
   plugins: [react()],
   server: { port: 5173, strictPort: true },
+  // Two pages: the hub at /, the Tintenblut social media tool for the client at /tintenblut/.
+  build: {
+    rollupOptions: {
+      input: {
+        hub: 'index.html',
+        tintenblut: 'tintenblut/index.html',
+      },
+    },
+  },
   // Cloud Functions have their own dependencies and tests.
   test: { exclude: [...configDefaults.exclude, 'functions/**'] },
 });

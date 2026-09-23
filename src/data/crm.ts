@@ -34,8 +34,8 @@ import {
   prepareWert,
   dmAlsAnfrage,
   inhaltById,
+  SOCIAL_PROFIL,
 } from './social';
-import { SOCIAL_START_AUFGABEN, SOCIAL_START_HOOKS, SOCIAL_START_INHALTE, SOCIAL_START_PLAN, SOCIAL_START_TEXTE } from './socialStart';
 import { STARTKATALOG } from './startkatalog';
 import { EMPTY_DEAL_INPUT } from './types';
 import type { Store } from './store';
@@ -869,8 +869,9 @@ export class CrmService {
       throw new ValidationError('plan', 'Hier stehen schon Einträge. Der Startplan wird nur in ein leeres Werkzeug übernommen.');
     }
     const meta = this.created();
+    const start = SOCIAL_PROFIL.start;
 
-    const inhalte: SocialInhalt[] = SOCIAL_START_INHALTE.map((start, i) => ({
+    const inhalte: SocialInhalt[] = start.inhalte.map((start, i) => ({
       ...prepareInhalt(start),
       id: newId(ID_PREFIX.social_inhalte),
       sortierung: (i + 1) * 10,
@@ -879,7 +880,7 @@ export class CrmService {
     }));
     const idFuerKennung = new Map(inhalte.map((inhalt) => [inhalt.kennung, inhalt.id]));
 
-    const plan: SocialPlanEintrag[] = SOCIAL_START_PLAN.map(({ kennung, ...eintrag }, i) => ({
+    const plan: SocialPlanEintrag[] = start.plan.map(({ kennung, ...eintrag }, i) => ({
       ...preparePlan({ ...eintrag, inhalt_id: (kennung && idFuerKennung.get(kennung)) || '' }),
       id: newId(ID_PREFIX.social_plan),
       erledigt_am: '',
@@ -889,7 +890,7 @@ export class CrmService {
       ...meta,
     }));
 
-    const hooks: SocialHook[] = SOCIAL_START_HOOKS.map((start, i) => ({
+    const hooks: SocialHook[] = start.hooks.map((start, i) => ({
       ...prepareHook(start),
       id: newId(ID_PREFIX.social_hooks),
       sortierung: (i + 1) * 10,
@@ -897,7 +898,7 @@ export class CrmService {
       ...meta,
     }));
 
-    const aufgaben: SocialAufgabe[] = SOCIAL_START_AUFGABEN.map((start, i) => ({
+    const aufgaben: SocialAufgabe[] = start.aufgaben.map((start, i) => ({
       ...prepareAufgabe(start),
       id: newId(ID_PREFIX.social_aufgaben),
       erledigt_am: '',
@@ -907,7 +908,7 @@ export class CrmService {
       ...meta,
     }));
 
-    const texte: SocialText[] = SOCIAL_START_TEXTE.map((start, i) => ({
+    const texte: SocialText[] = start.texte.map((start, i) => ({
       ...prepareText(start),
       id: newId(ID_PREFIX.social_texte),
       sortierung: (i + 1) * 10,

@@ -17,6 +17,13 @@ export interface SetupStatus {
 }
 
 const TABS: TabSchema[] = Object.values(SCHEMA);
+
+export interface SetupOptionen {
+  /** Only these tabs, for a client build that needs a single tool. Must include `listen`. Default: all. */
+  tabs?: readonly TabSchema[];
+  /** What an empty `listen` tab is filled with. */
+  listen?: Record<string, string[]>;
+}
 const PROTECTION_NOTE = 'Bitte nur über das CRM bearbeiten – sonst können Daten kaputtgehen.';
 
 /** Header cells up to the last non-empty one. */
@@ -41,12 +48,12 @@ function findSheet(info: SpreadsheetInfo, title: string) {
   return info.sheets?.find((sheet) => sheet.properties.title === title);
 }
 
-export async function checkSetup(api: SheetsApi): Promise<SetupStatus> {
+export async function checkSetup(api: SheetsApi, { tabs: auswahl = TABS }: SetupOptionen = {}): Promise<SetupStatus> {
   const info = await api.getSpreadsheet();
-  const vorhanden = TABS.filter((tab) => findSheet(info, tab.name));
+  const vorhanden = auswahl.filter((tab) => findSheet(info, tab.name));
   const header = await readHeaders(api, vorhanden.map((tab) => tab.name));
 
-  const tabs: TabStatus[] = TABS.map((tab) => {
+  const tabs: TabStatus[] = auswahl.map((tab) => {
     const sheet = findSheet(info, tab.name);
     if (!sheet) return { name: tab.name, exists: false, missingColumns: [...tab.columns], isProtected: false };
     const spalten = header.get(tab.name) ?? [];
@@ -74,10 +81,10 @@ export async function checkSetup(api: SheetsApi): Promise<SetupStatus> {
  * fills the "listen" tab with defaults if it is empty and adds a warning-only protection per tab.
  * Safe to run repeatedly.
  */
-export async function runSetup(api: SheetsApi): Promise<void> {
+export async function runSetup(api: SheetsApi, { tabs: auswahl = TABS, listen = LISTEN_DEFAULTS }: SetupOptionen = {}): Promise<void> {
   const before = await api.getSpreadsheet();
   await api.batchUpdate(
-    TABS.filter((tab) => !findSheet(before, tab.name)).map((tab) => ({
+    auswahl.filter((tab) => !findSheet(before, tab.name)).map((tab) => ({
       addSheet: {
         properties: {
           title: tab.name,
@@ -90,9 +97,9 @@ export async function runSetup(api: SheetsApi): Promise<void> {
   const info = await api.getSpreadsheet();
   const structureRequests: unknown[] = [];
   const headerWrites: { range: string; values: string[][] }[] = [];
-  const headers = await readHeaders(api, TABS.map((tab) => tab.name));
+  const headers = await readHeaders(api, auswahl.map((tab) => tab.name));
 
-  for (const tab of TABS) {
+  for (const tab of auswahl) {
     const sheet = findSheet(info, tab.name);
     if (!sheet) throw new Error(`Tabellenblatt „${tab.name}“ konnte nicht angelegt werden.`);
     const { sheetId, gridProperties } = sheet.properties;
@@ -135,7 +142,7 @@ export async function runSetup(api: SheetsApi): Promise<void> {
   const listenRows = await api.getValues(`${listenTab}!A2:A`);
   if (listenRows.length === 0) {
     const header = headerAus(await api.getValues(`${listenTab}!1:1`));
-    const rows = Object.entries(LISTEN_DEFAULTS).flatMap(([liste, werte]) =>
+    const rows = Object.entries(listen).flatMap(([liste, werte]) =>
       werte.map((wert) => header.map((column) => (column === 'liste' ? liste : column === 'wert' ? wert : ''))),
     );
     await api.appendValues(`${listenTab}!A1`, rows);

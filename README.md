@@ -24,6 +24,18 @@ Ohne Google-Zugangsdaten startet die App im **Demo-Modus** mit erfundenen Beispi
 | **Social Media** | Der 90-Tage-Plan im Hub statt im Dokument: **Redaktionsplan** nach Kalenderwochen mit Häkchen je Termin, **Inhalte** (Karussells, Reels, Einzelbilder, Stories mit Hook, Slides, Caption, Hashtags und Alt-Text, direkt auf der Detailseite bearbeitbar), **Aufgaben** aus „Erste Woche“ und „Was fehlt“ zum Abhaken, **Messung** mit eigenem Median und den Schwellen zum Aussortieren oder Verdoppeln, **Strategie** mit den Kapiteln und der Hook-Bibliothek. Dazu ein UTM-Link-Generator und „DM erfassen“, das die Nachricht auf Wunsch gleich in den Anfragen-Eingang legt. Beim ersten Öffnen übernimmt ein Klick den kompletten Startplan. |
 | **Import** | CSV aus dem Magento-Lead-Qualifier: Vorschau, Tier-Filter, Dubletten per Domain; mögliche Dubletten unter anderer Domain werden markiert und standardmäßig nicht importiert. Neue Firmen bekommen Kontakt und Deal; vorhandene werden nie überschrieben, nur leere Felder ergänzt. |
 
+## Kunden-Werkzeug: Tintenblut Social Media
+
+Unter `/tintenblut/` läuft das Social-Media-Werkzeug als eigene Seite für den Kunden Tintenblut Tattoo: nur
+Social Media, im Tintenblut-Design, ohne Google-Login. Was Velonify-spezifisch war (Säulen, Kanäle,
+DM-Stichworte, Texte, Startplan), steht jetzt in einem Profil (`src/data/socialProfil.ts`); der Hub nutzt
+`VELONIFY_PROFIL`, die Kundenseite `src/tintenblut/profil.ts` mit dem Startplan aus
+`src/tintenblut/socialStart.ts`.
+
+Gespeichert wird in einem eigenen Google Sheet über eine Apps-Script-Web-App (Einrichtung:
+`apps-script/social-kunde/README.md`, Adresse in `src/tintenblut/config.ts`). Ohne sie läuft die Seite als Vorschau.
+Ein weiterer Kunde: Ordner `src/tintenblut` kopieren, Profil und Startplan ersetzen, Eintrag in `vite.config.ts`.
+
 ## Einrichtung (einmalig)
 
 ### 1. Google Cloud: OAuth-Client anlegen

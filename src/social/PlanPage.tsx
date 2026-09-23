@@ -3,7 +3,7 @@ import { useToast } from '../components/Toasts';
 import { Card } from '../components/ui';
 import { useCrm } from '../data/CrmContext';
 import { isoDate } from '../data/ids';
-import { KANAELE, SAEULEN, formatLabel, inhaltById, istVeroeffentlicht, kanalLabel, planNachWochen } from '../data/social';
+import { KANAELE, SAEULEN, SOCIAL_PROFIL, formatLabel, inhaltById, istVeroeffentlicht, kanalLabel, planNachWochen } from '../data/social';
 import type { SocialDaten, SocialPlanEintrag } from '../data/types';
 import { errorMessage } from '../lib/errors';
 import { formatDate, formatDayShort } from '../lib/format';
@@ -73,7 +73,7 @@ export function SocialPlanPage() {
   return (
     <SocialSeite
       title="Redaktionsplan"
-      subtitle="Posting-Tage auf Instagram sind Dienstag, Donnerstag und Samstag um 07:30. Stories Montag bis Freitag, LinkedIn mittwochs als reine Zweitverwertung."
+      subtitle={SOCIAL_PROFIL.planUntertitel}
       breit
       actions={
         <button type="button" className="button primary" onClick={() => setOffen({})}>

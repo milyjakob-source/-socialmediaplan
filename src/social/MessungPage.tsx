@@ -8,6 +8,7 @@ import { isoDate } from '../data/ids';
 import {
   MEDIAN_FENSTER,
   MINDEST_POSTS,
+  SOCIAL_PROFIL,
   SOCIAL_ZIEL_STANDARD,
   URTEIL_LABEL,
   VERDOPPELN_FAKTOR,
@@ -69,7 +70,7 @@ const FELDER: Record<string, { feld: keyof typeof LEERE_ZAHLEN; label: string; h
   monat: [
     { feld: 'neue_follower', label: 'Neue Follower' },
     { feld: 'follower_zielgruppe', label: 'Davon Zielgruppe', hint: 'Stichprobe: die letzten 30 neuen Follower prüfen' },
-    { feld: 'sitzungen', label: 'Sitzungen aus Social', hint: 'GA4, utm_source=instagram oder linkedin' },
+    { feld: 'sitzungen', label: 'Sitzungen aus Social', hint: SOCIAL_PROFIL.sitzungenHinweis },
     { feld: 'formulare', label: 'Formular-Absendungen' },
     { feld: 'erstgespraeche', label: 'Erstgespräche' },
     { feld: 'angebote_wert_eur', label: 'Wert der Angebote (€)' },
@@ -160,12 +161,12 @@ function WertDialog({ daten, heute, vorgabe, aendern, onClose }: { daten: Social
   );
 }
 
-/** Builds the links of section 10, so Instagram and LinkedIn end up in the same GA4 report. */
+/** Builds the links of the measurement chapter, so every channel ends up in the same GA4 report. */
 function UtmKarte({ ziel }: { ziel: string }) {
   const { perform } = useCrm();
   const toast = useToast();
   const [basis, setBasis] = useState(ziel);
-  const [quelle, setQuelle] = useState<'instagram' | 'linkedin'>('instagram');
+  const [quelle, setQuelle] = useState(SOCIAL_PROFIL.utmQuellen[0]?.wert ?? 'instagram');
   const [kampagne, setKampagne] = useState('profil');
   const [inhalt, setInhalt] = useState('');
   const link = utmLink(basis, { quelle, kampagne, inhalt });
@@ -190,7 +191,7 @@ function UtmKarte({ ziel }: { ziel: string }) {
         )
       }
     >
-      <p className="muted small">Ein Ziel, eine Handlung: der Kontaktabschnitt auf velonify.de mit Terminbuchung. Kein Linktree.</p>
+      <p className="muted small">{SOCIAL_PROFIL.linkHinweis}</p>
       <div className="filename-form">
         <label className="field wide">
           <span className="field-label">Linkziel</span>
@@ -198,9 +199,12 @@ function UtmKarte({ ziel }: { ziel: string }) {
         </label>
         <label className="field">
           <span className="field-label">Quelle</span>
-          <select value={quelle} onChange={(e) => setQuelle(e.target.value as 'instagram' | 'linkedin')}>
-            <option value="instagram">Instagram</option>
-            <option value="linkedin">LinkedIn</option>
+          <select value={quelle} onChange={(e) => setQuelle(e.target.value)}>
+            {SOCIAL_PROFIL.utmQuellen.map((q) => (
+              <option key={q.wert} value={q.wert}>
+                {q.label}
+              </option>
+            ))}
           </select>
         </label>
         <label className="field">
@@ -217,7 +221,7 @@ function UtmKarte({ ziel }: { ziel: string }) {
           <input
             value={inhalt}
             onChange={(e) => setInhalt(e.target.value)}
-            placeholder={quelle === 'linkedin' ? 'lukas' : '2026-09-24'}
+            placeholder={quelle === 'linkedin' ? 'lukas' : SOCIAL_PROFIL.utmInhaltPlatzhalter}
             autoComplete="off"
           />
         </label>

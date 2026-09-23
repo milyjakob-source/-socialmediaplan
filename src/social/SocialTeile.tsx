@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useToast } from '../components/Toasts';
 import { Card, ErrorBox, Loading, PageHeader } from '../components/ui';
 import { SchemaError } from '../data/errors';
-import { inhaltName, inhaltStatusLabel, planStatusLabel, saeule } from '../data/social';
+import { SOCIAL_PROFIL, inhaltName, inhaltStatusLabel, planStatusLabel, saeule } from '../data/social';
 import type { SocialDaten, SocialInhalt } from '../data/types';
 import { errorMessage } from '../lib/errors';
 import { useSocial, type Aendern } from './useSocial';
@@ -52,14 +52,8 @@ function Startzustand({ aendern }: { aendern: Aendern }) {
 
   return (
     <Card title="Noch leer">
-      <p>
-        Hier liegt der 90-Tage-Plan vom 21.09.2026: vier Säulen, zwölf fertige Posts, zehn Stories, der Redaktionsplan bis zum 21.10., die
-        Hook-Bibliothek und die Aufgaben aus „Erste Woche“ und „Was fehlt“.
-      </p>
-      <p className="muted">
-        Einmal übernehmen, danach wird nur noch hier gepflegt. Das Dokument im Vault bleibt der Stand vom 21.09. und wird nicht mehr
-        nachgezogen.
-      </p>
+      <p>{SOCIAL_PROFIL.startText[0]}</p>
+      <p className="muted">{SOCIAL_PROFIL.startText[1]}</p>
       <div className="empty-actions">
         <button type="button" className="button primary" disabled={busy} onClick={uebernehmen}>
           {busy ? 'Übernimmt …' : 'Plan übernehmen'}

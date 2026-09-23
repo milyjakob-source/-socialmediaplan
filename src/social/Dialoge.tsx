@@ -12,6 +12,7 @@ import {
   KANAELE,
   PLAN_STATUS,
   SAEULEN,
+  SOCIAL_PROFIL,
   STICHWORTE,
   inhaltName,
   sortiereInhalte,
@@ -198,7 +199,7 @@ export function PlanDialog({
         <SaeuleFeld wert={werte.saeule} onChange={(w) => setze('saeule', w)} />
         <AuswahlFeld label="Status" wert={werte.status} onChange={(w) => setze('status', w)} optionen={PLAN_STATUS} />
         <Field label="Thema" invalid={fieldOf(error) === 'thema'} wide>
-          <input value={werte.thema} onChange={(e) => setze('thema', e.target.value)} placeholder="z. B. UMZUGSPLAN #1: 7 Dinge vor dem ersten Export" autoComplete="off" />
+          <input value={werte.thema} onChange={(e) => setze('thema', e.target.value)} placeholder={SOCIAL_PROFIL.beispielThema} autoComplete="off" />
         </Field>
         <InhaltFeld inhalte={inhalte} wert={werte.inhalt_id} onChange={(w) => setze('inhalt_id', w)} hint="Der Post, der an diesem Tag rausgeht" />
         <TeamFeld team={team} wert={werte.zustaendig} onChange={(w) => setze('zustaendig', w)} />
@@ -395,7 +396,7 @@ export function DmDialog({
         }
       : LEERE_DM(heute, ich),
   );
-  const [anfrageAnlegen, setAnfrageAnlegen] = useState(!dm);
+  const [anfrageAnlegen, setAnfrageAnlegen] = useState(!dm && SOCIAL_PROFIL.eingang);
   const { busy, error, run } = useSpeichern(aendern, onClose);
   const setze = <K extends keyof SocialDmInput>(feld: K, wert: SocialDmInput[K]) => setWerte((w) => ({ ...w, [feld]: wert }));
 
@@ -422,10 +423,7 @@ export function DmDialog({
           label="Kanal"
           wert={werte.kanal}
           onChange={(w) => setze('kanal', w)}
-          optionen={[
-            { wert: 'instagram', label: 'Instagram' },
-            { wert: 'linkedin', label: 'LinkedIn' },
-          ]}
+          optionen={SOCIAL_PROFIL.dmKanaele}
         />
         <Field label="Stichwort" hint={`Aus dem Plan: ${STICHWORTE.join(', ')}`}>
           <input list="social-stichworte" value={werte.stichwort} onChange={(e) => setze('stichwort', e.target.value)} autoComplete="off" />
@@ -439,8 +437,8 @@ export function DmDialog({
         <Field label="Name oder Handle" invalid={fieldOf(error) === 'name'}>
           <input value={werte.name} onChange={(e) => setze('name', e.target.value)} autoComplete="off" />
         </Field>
-        <Field label="Shop">
-          <input value={werte.shop} onChange={(e) => setze('shop', e.target.value)} placeholder="beispielshop.de" autoComplete="off" />
+        <Field label={SOCIAL_PROFIL.dmBezugLabel}>
+          <input value={werte.shop} onChange={(e) => setze('shop', e.target.value)} placeholder={SOCIAL_PROFIL.dmBezugPlatzhalter} autoComplete="off" />
         </Field>
         <Field label="Nachricht" wide>
           <textarea rows={3} value={werte.nachricht} onChange={(e) => setze('nachricht', e.target.value)} />
@@ -452,9 +450,9 @@ export function DmDialog({
         <div className="field wide">
           <label className="checkbox">
             <input type="checkbox" checked={werte.qualifiziert} onChange={(e) => setze('qualifiziert', e.target.checked)} />
-            Qualifiziert: Onlineshop im DACH-Raum, Entscheider:in, konkreter Bedarf in den nächsten sechs Monaten
+            {SOCIAL_PROFIL.qualifiziertText}
           </label>
-          {!dm && (
+          {!dm && SOCIAL_PROFIL.eingang && (
             <label className="checkbox">
               <input type="checkbox" checked={anfrageAnlegen} onChange={(e) => setAnfrageAnlegen(e.target.checked)} />
               Auch in den Anfragen-Eingang legen, damit daraus eine Firma im CRM werden kann
@@ -518,7 +516,7 @@ export function InhaltNeuDialog({ aendern, onClose, onAngelegt }: { aendern: Aen
         <Field label="Titel" invalid={fieldOf(error) === 'titel'} wide>
           <input value={werte.titel} onChange={(e) => setze('titel', e.target.value)} autoComplete="off" />
         </Field>
-        <Field label="Serie" hint="z. B. UMZUGSPLAN #2">
+        <Field label="Serie" hint={`z. B. ${SOCIAL_PROFIL.beispielSerie}`}>
           <input value={werte.serie} onChange={(e) => setze('serie', e.target.value)} autoComplete="off" />
         </Field>
         <SaeuleFeld wert={werte.saeule} onChange={(w) => setze('saeule', w)} />

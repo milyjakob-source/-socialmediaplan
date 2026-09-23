@@ -1,0 +1,77 @@
+/*
+ * Tintenblut on top of the hub styles: the engraving-plate world of the Tintenblut website.
+ * Warm near-black ink, ivory bone, one blood-red accent; Bodoni Moda for headings, Newsreader for text,
+ * Space Mono for labels and controls. Only tokens and type are swapped – the layout stays the hub's.
+ */
+:root,
+[data-theme='dark'] {
+  --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
+  --font-sans: 'Newsreader', 'Iowan Old Style', Georgia, serif;
+  --font-mono: 'Space Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --tb-red: #8a1f1f;
+  --tb-red-text: #dd5232;
+
+  --surface: #0d0c0a;
+  --raised: #17140f;
+  --sunken: #120f0c;
+  --ink: #f2ecdf;
+  --ink-muted: rgb(199 191 169 / 82%);
+  --line: rgb(242 236 223 / 12%);
+  --line-strong: rgb(242 236 223 / 28%);
+  --rule: rgb(242 236 223 / 42%);
+  --hover: rgb(242 236 223 / 5%);
+  --accent: var(--tb-red-text);
+  --on-accent: #0d0c0a;
+  --focus: var(--tb-red-text);
+  --panel: var(--tb-red);
+  --on-panel: #f2ecdf;
+  --on-panel-muted: rgb(242 236 223 / 72%);
+  --panel-border: var(--tb-red);
+  --highlight: rgb(221 82 50 / 14%);
+  --on-highlight: #f0a58f;
+  --selection-bg: var(--tb-red);
+  --selected-bg: rgb(242 236 223 / 12%);
+  --selected-ink: var(--ink);
+  --toast-bg: #1e1a14;
+  --toast-ink: var(--ink);
+  --toast-bar: var(--tb-red-text);
+  --scrim: rgb(5 4 3 / 72%);
+  --ok: #a7bd8f;
+  --ok-soft: rgb(167 189 143 / 13%);
+  --warn: #d9b25e;
+  --warn-soft: rgb(217 178 94 / 13%);
+  --danger: #e2826b;
+  --danger-soft: rgb(226 130 107 / 14%);
+  --on-status: #0d0c0a;
+  color-scheme: dark;
+}
+
+html { font-size: 16px; font-weight: 400; }
+h1, h2 { font-weight: 800; letter-spacing: 0; }
+h1 { text-transform: none; }
+
+/* Labels, buttons, badges and navigation: the website's mono caption voice. */
+.eyebrow, .label, .tag, .label-text, .field-label, .button, .badge, .nav-item, .chip, .segmented button, th, .kpi-label, .card-header h2 {
+  font-family: var(--font-mono);
+}
+.card-header h2 { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
+.nav-item { font-size: 12.5px; letter-spacing: 0.08em; }
+
+/* Plate frame: a second hairline around cards, like the photographs on the website. */
+.card { outline: 1px solid var(--line); outline-offset: 4px; }
+
+.tb-sidebar { background: #090807; }
+.tb-lockup { align-items: center; gap: 14px; }
+.tb-lockup img { height: 52px; width: 52px; border-radius: 50%; border: 1px solid var(--tb-red); padding: 3px; }
+.tb-lockup .wordmark { display: block; font-family: var(--font-display); font-weight: 800; font-size: 22px; text-transform: none; color: var(--ink); }
+.tb-sub { display: block; margin-top: 4px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tb-red-text); }
+.tb-ich { display: grid; gap: 6px; margin-bottom: var(--space-2); }
+.tb-ich select { width: 100%; }
+.tb-fuss { margin: 0; font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted); letter-spacing: 0.06em; }
+
+.demo-banner { font-family: var(--font-mono); font-size: 12.5px; }
+
+.tb-zugang { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; }
+.tb-zugang-karte { width: min(420px, 100%); display: grid; gap: var(--space-2); padding: var(--space-5) var(--space-4); text-align: left; }
+.tb-zugang-karte h1 { font-size: 34px; }
+.tb-zugang-logo { width: 88px; height: 88px; border-radius: 50%; border: 1px solid var(--tb-red); padding: 4px; }
