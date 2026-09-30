@@ -72,7 +72,7 @@ function doGet(e) {
   var p = (e && e.parameter) || {};
   try {
     if (p.action === 'belegung') return json(belegung(p.datum));
-    if (p.action === 'bewertungen') return json(bewertungen());
+    if (p.action === 'bewertungen' || p.action === 'google') return json(bewertungen());
     if (p.action === 'storno') return stornoSeite(p.id, p.token, p.bestaetigen === '1');
     return json({ ok: true, text: 'Tabano-Skript bereit.' });
   } catch (fehler) {
@@ -276,28 +276,29 @@ function anfrage(d) {
 
 /* Bewertungen ----------------------------------------------------------- */
 
+/**
+ * Bewertungen und Fotos aus dem Google-Unternehmensprofil (Places API, New).
+ * Liefert Sterne, Anzahl, bis zu 5 Bewertungen (die besten zuerst) und bis zu 10 Fotos mit Urheber.
+ * Die Foto-Adressen zeigen auf Googles Bildserver; der API-Schlüssel steckt nicht darin.
+ */
 function bewertungen() {
   var cache = CacheService.getScriptCache();
-  var gemerkt = cache.get('bewertungen');
+  var gemerkt = cache.get('google');
   if (gemerkt) return JSON.parse(gemerkt);
   var key = eigenschaft('PLACES_API_KEY');
   var placeId = eigenschaft('PLACE_ID');
   if (!key || !placeId) return { ok: false, message: 'PLACES_API_KEY oder PLACE_ID fehlt.' };
   var antwort = UrlFetchApp.fetch('https://places.googleapis.com/v1/places/' + encodeURIComponent(placeId) + '?languageCode=de', {
-    headers: { 'X-Goog-Api-Key': key, 'X-Goog-FieldMask': 'rating,userRatingCount,reviews,googleMapsUri' },
+    headers: { 'X-Goog-Api-Key': key, 'X-Goog-FieldMask': 'rating,userRatingCount,reviews,photos,googleMapsUri' },
     muteHttpExceptions: true,
   });
   if (antwort.getResponseCode() !== 200) {
     console.error('Places API', antwort.getResponseCode(), antwort.getContentText());
-    return { ok: false, message: 'Bewertungen gerade nicht verfügbar.' };
+    return { ok: false, message: 'Google-Daten gerade nicht verfügbar.' };
   }
   var p = JSON.parse(antwort.getContentText());
-  var ergebnis = {
-    ok: true,
-    rating: p.rating || 0,
-    count: p.userRatingCount || 0,
-    url: p.googleMapsUri || '',
-    reviews: (p.reviews || []).map(function (r) {
+  var reviews = (p.reviews || [])
+    .map(function (r) {
       var t = (r.text && r.text.text) || (r.originalText && r.originalText.text) || '';
       return {
         author: (r.authorAttribution && r.authorAttribution.displayName) || 'Google-Nutzer',
@@ -306,9 +307,29 @@ function bewertungen() {
         text: t,
         when: r.relativePublishTimeDescription || '',
       };
-    }),
-  };
-  cache.put('bewertungen', JSON.stringify(ergebnis), 6 * 3600);
+    })
+    // Top-Rezensionen zuerst: beste Sterne, bei Gleichstand die ausführlichere.
+    .sort(function (a, b) {
+      return b.rating - a.rating || b.text.length - a.text.length;
+    });
+  var fotos = (p.photos || []).slice(0, 10).map(function (f) {
+    var uri = '';
+    try {
+      var m = UrlFetchApp.fetch('https://places.googleapis.com/v1/' + f.name + '/media?maxWidthPx=1600&skipHttpRedirect=true', {
+        headers: { 'X-Goog-Api-Key': key },
+        muteHttpExceptions: true,
+      });
+      if (m.getResponseCode() === 200) uri = JSON.parse(m.getContentText()).photoUri || '';
+    } catch (fehler) {
+      console.error('Foto', fehler);
+    }
+    var a = (f.authorAttributions || [])[0] || {};
+    return { url: uri, width: f.widthPx || 0, height: f.heightPx || 0, author: a.displayName || '', authorUrl: a.uri || '' };
+  }).filter(function (f) {
+    return f.url;
+  });
+  var ergebnis = { ok: true, rating: p.rating || 0, count: p.userRatingCount || 0, url: p.googleMapsUri || '', reviews: reviews, fotos: fotos };
+  cache.put('google', JSON.stringify(ergebnis), 6 * 3600);
   return ergebnis;
 }
 

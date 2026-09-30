@@ -96,10 +96,14 @@ Netlify-Formular raus (Benachrichtigung per E-Mail unter *Forms → Notification
 und in der Suche direkt zum Formular. Wer zusätzlich eine Google-Kalender-Terminbuchungsseite nutzt, kann
 deren Link in `config.js` bei `googleBookingUrl` eintragen.
 
-## Google-Bewertungen einbinden
+## Google-Bewertungen und Fotos einbinden
 
-Die Startseite zeigt Sternedurchschnitt, Anzahl und die neuesten Bewertungen live von Google. Der
-API-Schlüssel liegt nur im Apps Script, nie im Browser; Besucher bauen keine Verbindung zu Google auf.
+Mit einem Places-API-Schlüssel holt das Apps Script aus dem Google-Unternehmensprofil:
+- Sternedurchschnitt, Anzahl und die Top-Rezensionen (beste zuerst) für die Startseite,
+- bis zu 10 Fotos, die automatisch in alle Bildrahmen gesetzt werden, für die noch kein eigenes Foto in
+  `assets/img/fotos` liegt, mit Urhebernennung, wie Google es verlangt.
+
+Eigene Fotos haben immer Vorrang. Der API-Schlüssel liegt nur im Apps Script, nie im Browser.
 
 1. [console.cloud.google.com](https://console.cloud.google.com): Projekt anlegen, **Places API (New)**
    aktivieren, *Anmeldedaten → API-Schlüssel*. Schlüssel beschränken auf „Places API (New)“.

@@ -98,12 +98,72 @@
     });
   }
 
-  /* Fehlende Fotos: ruhige Fläche mit Beschriftung statt kaputtem Bild. ----- */
+  /* Google-Profil (Bewertungen und Fotos) über das Apps Script, einmal pro Sitzung. */
+  var googlePromise = null;
+  window.tabanoGoogle = function () {
+    if (googlePromise) return googlePromise;
+    if (!CFG.endpoint) return (googlePromise = Promise.resolve(null));
+    try {
+      var cached = JSON.parse(sessionStorage.getItem('tabano.google') || 'null');
+      if (cached && Date.now() - cached.ts < 3600e3) return (googlePromise = Promise.resolve(cached.data));
+    } catch (e) {}
+    googlePromise = fetch(CFG.endpoint + '?action=google')
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        if (res && res.ok) {
+          try {
+            sessionStorage.setItem('tabano.google', JSON.stringify({ ts: Date.now(), data: res }));
+          } catch (e) {}
+        }
+        return res;
+      })
+      .catch(function () {
+        return null;
+      });
+    return googlePromise;
+  };
+
+  /* Fehlende Fotos: erst Fotos aus dem Google-Profil einsetzen, sonst ruhige Fläche mit Beschriftung. */
+  var missingFigs = [];
+  var fotoIndex = 0;
+  function fillFromGoogle(fig) {
+    window.tabanoGoogle().then(function (res) {
+      var fotos = (res && res.fotos) || [];
+      if (!fotos.length) return;
+      // Jede Seite fängt an einer anderen Stelle an, damit nicht überall dieselben Bilder stehen.
+      var start = (document.body.className.length * 7) % fotos.length;
+      var f = fotos[(start + fotoIndex++) % fotos.length];
+      var img = fig.querySelector('img');
+      var src = fig.querySelector('source');
+      if (src) src.remove();
+      img.addEventListener('load', function () {
+        fig.classList.remove('is-missing');
+      }, { once: true });
+      img.referrerPolicy = 'no-referrer';
+      img.src = f.url;
+      if (f.author && !fig.querySelector('.photo-credit')) {
+        var credit = document.createElement(f.authorUrl ? 'a' : 'span');
+        credit.className = 'photo-credit';
+        credit.textContent = 'Foto: ' + f.author + ' / Google';
+        if (f.authorUrl) {
+          credit.href = f.authorUrl;
+          credit.target = '_blank';
+          credit.rel = 'noopener nofollow';
+        }
+        fig.appendChild(credit);
+      }
+    });
+  }
   document.querySelectorAll('figure.media img').forEach(function (img) {
     var fig = img.closest('figure');
     function missing() {
+      if (fig.classList.contains('is-missing')) return;
       fig.classList.add('is-missing');
       fig.setAttribute('data-label', img.alt || '');
+      missingFigs.push(fig);
+      fillFromGoogle(fig);
     }
     if (img.complete && img.naturalWidth === 0) missing();
     else img.addEventListener('error', missing, { once: true });

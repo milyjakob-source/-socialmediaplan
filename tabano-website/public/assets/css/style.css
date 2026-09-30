@@ -1970,3 +1970,26 @@ textarea.input {
   text-decoration: line-through;
   cursor: not-allowed;
 }
+
+/* Urhebernennung für Fotos aus dem Google-Profil (von Google verlangt). */
+.photo-credit {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 2;
+  max-width: calc(100% - 20px);
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgb(10 14 12 / 62%);
+  color: #f4f5f1;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tile .photo-credit {
+  top: 10px;
+  bottom: auto;
+}
