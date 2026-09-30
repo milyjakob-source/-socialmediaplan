@@ -1,0 +1,99 @@
+# Netlify: veröffentlicht den Ordner public/ so, wie er im Repo liegt (kein Build-Schritt nötig).
+# Base directory in Netlify: tabano-website
+[build]
+  publish = "public"
+  command = ""
+
+# HTTPS erzwingen und www auf die Hauptadresse leiten. Netlify leitet http:// ohnehin auf https:// um,
+# sobald das Zertifikat aktiv ist (Domain management → HTTPS → Force HTTPS).
+[[redirects]]
+  from = "http://tabano-stuttgart.de/*"
+  to = "https://tabano-stuttgart.de/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "http://www.tabano-stuttgart.de/*"
+  to = "https://tabano-stuttgart.de/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://www.tabano-stuttgart.de/*"
+  to = "https://tabano-stuttgart.de/:splat"
+  status = 301
+  force = true
+
+# Adressen der alten Website, damit Google-Treffer und Lesezeichen weiter funktionieren.
+[[redirects]]
+  from = "/Tischreservierung/*"
+  to = "/reservierung/"
+  status = 301
+[[redirects]]
+  from = "/Tischreservierung"
+  to = "/reservierung/"
+  status = 301
+[[redirects]]
+  from = "/Speisekarte/*"
+  to = "/speisekarte/"
+  status = 301
+[[redirects]]
+  from = "/Speisekarte"
+  to = "/speisekarte/"
+  status = 301
+[[redirects]]
+  from = "/Kontakt/Anfahrt"
+  to = "/kontakt/#besuch"
+  status = 301
+[[redirects]]
+  from = "/Kontakt/*"
+  to = "/kontakt/"
+  status = 301
+[[redirects]]
+  from = "/Kontakt"
+  to = "/kontakt/"
+  status = 301
+[[redirects]]
+  from = "/Ueber-uns/*"
+  to = "/ueber-uns/"
+  status = 301
+[[redirects]]
+  from = "/Ueber-uns"
+  to = "/ueber-uns/"
+  status = 301
+[[redirects]]
+  from = "/Impressum/*"
+  to = "/impressum/"
+  status = 301
+[[redirects]]
+  from = "/Impressum"
+  to = "/impressum/"
+  status = 301
+[[redirects]]
+  from = "/Datenschutz*"
+  to = "/datenschutz/"
+  status = 301
+
+# Sicherheits-Header für alle Seiten.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-src https://www.google.com https://maps.google.com; form-action 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests"
+
+# Lange Zwischenspeicherung für Schriften und Bilder; CSS und JS tragen ?v= und dürfen ebenfalls lange.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+[[headers]]
+  for = "/assets/img/fotos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

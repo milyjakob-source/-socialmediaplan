@@ -1,0 +1,89 @@
+// Google-Bewertungen: kommen über das eigene Apps Script (der API-Schlüssel bleibt dort).
+// Ohne Skript zeigt der Abschnitt nur die Links zu Google, keine erfundenen Stimmen.
+(function () {
+  'use strict';
+  var CFG = window.TABANO_CONFIG || {};
+  var track = document.querySelector('[data-reviews]');
+  if (!track) return;
+  var CACHE_KEY = 'tabano.reviews';
+  // Phosphor „star-fill“ (MIT)
+  var STAR = '<svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"/></svg>';
+
+  function stars(n) {
+    var out = '';
+    for (var i = 1; i <= 5; i++) out += i <= Math.round(n) ? STAR : STAR.replace('class="icon"', 'class="icon is-empty"');
+    return out;
+  }
+  function esc(s) {
+    return String(s || '').replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function initials(name) {
+    return String(name || '?')
+      .split(/\s+/)
+      .map(function (p) {
+        return p.charAt(0);
+      })
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+  }
+
+  function render(data) {
+    var rating = document.querySelector('[data-rating]');
+    if (data.rating) {
+      document.querySelector('[data-rating-score]').textContent = data.rating.toFixed(1).replace('.', ',');
+      document.querySelector('[data-rating-stars]').innerHTML = stars(data.rating);
+      document.querySelector('[data-rating-stars]').setAttribute('aria-label', data.rating.toFixed(1).replace('.', ',') + ' von 5 Sternen');
+      document.querySelector('[data-rating-count]').textContent =
+        data.count ? 'aus ' + data.count.toLocaleString('de-DE') + ' Google-Bewertungen' : 'auf Google';
+      rating.hidden = false;
+    }
+    var reviews = (data.reviews || []).filter(function (r) {
+      return r.text && r.rating >= 4;
+    });
+    if (!reviews.length) {
+      track.remove();
+      return;
+    }
+    track.innerHTML = reviews
+      .map(function (r) {
+        return (
+          '<article class="review">' +
+          '<span class="stars" role="img" aria-label="' + r.rating + ' von 5 Sternen">' + stars(r.rating) + '</span>' +
+          '<blockquote><p>' + esc(r.text) + '</p></blockquote>' +
+          '<div class="review-author"><span class="tag" aria-hidden="true">' + esc(initials(r.author)) + '</span>' +
+          '<div>' + (r.authorUrl ? '<a href="' + esc(r.authorUrl) + '" rel="noopener nofollow" target="_blank">' + esc(r.author) + '</a>' : esc(r.author)) +
+          '<span>' + esc(r.when || '') + ' auf Google</span></div></div>' +
+          '</article>'
+        );
+      })
+      .join('');
+  }
+
+  function fail() {
+    track.remove();
+  }
+
+  if (!CFG.endpoint) return fail();
+
+  // Kurz im Browser merken, damit nicht jeder Seitenwechsel eine Anfrage auslöst.
+  try {
+    var cached = JSON.parse(sessionStorage.getItem(CACHE_KEY) || 'null');
+    if (cached && Date.now() - cached.ts < 3600e3) return render(cached.data);
+  } catch (e) {}
+
+  fetch(CFG.endpoint + '?action=bewertungen')
+    .then(function (r) {
+      return r.json();
+    })
+    .then(function (res) {
+      if (!res || !res.ok) throw new Error('keine Bewertungen');
+      try {
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: res }));
+      } catch (e) {}
+      render(res);
+    })
+    .catch(fail);
+})();
