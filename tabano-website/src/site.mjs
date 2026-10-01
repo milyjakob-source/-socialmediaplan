@@ -23,6 +23,8 @@ export const SITE = {
   // Link „Bewertung schreiben“: im Google-Unternehmensprofil unter „Rezensionen erhalten“ kopieren. PRÜFEN
   reviewLink:
     'https://www.google.com/maps/search/?api=1&query=Trattoria+Tabano+Silberburgstra%C3%9Fe+62b+70176+Stuttgart',
+  // Google-Sternebewertung für die Anzeige, solange das Apps Script die Live-Werte nicht liefert. PRÜFEN
+  googleBewertung: 4.3,
   social: {
     facebook: 'https://www.facebook.com/p/Tabano-100057607265058/', // PRÜFEN
     instagram: '', // Handle eintragen, sonst wird kein Link gezeigt

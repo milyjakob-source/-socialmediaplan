@@ -40,17 +40,20 @@ Die alte Website war aus dieser Arbeitsumgebung nicht abrufbar. Inhalte stammen 
 (Branchenverzeichnisse, Presse, Speisekarten-Portale) und sind mit dem Restaurant abzugleichen. Im Code
 mit `PRÜFEN` markiert, auf den Rechtsseiten gelb hervorgehoben.
 
-- [ ] **Logo:** Original als SVG nach `public/assets/img/logo.svg` (dunkle Schrift) und `logo-dark.svg`
-      (helle Schrift) legen. Jetzt steht dort eine Platzhalter-Wortmarke. Favicon: `favicon.svg` ersetzen,
-      dann `npm run bilder`.
-- [ ] **Fotos** nach `bilder-original/` legen (Dateiname = Bildplatz), dann `npm run bilder`:
+- [x] **Logo:** Bildmarke aus dem Original-Logo vektorisiert (`tools/mark-raw.svg`), daneben der Schriftzug
+      „TABANO.“ wie an der Fassade. Neu erzeugen: `python3 tools/logo_aus_marke.py`, dann `npm run bilder`.
+      Liegt das Logo als Original-SVG vor, einfach `logo.svg`, `logo-dark.svg` und `favicon.svg` ersetzen.
+- [x] **Fotos:** Gastraum, Pizza, Eckhaus bei Tag und bei Nacht sind eingebaut. Weitere Fotos (Pasta, Fisch,
+      Team, Bar) nach `bilder-original/` legen, `npm run bilder`, im passenden Bildplatz eintragen.
+- [ ] Weitere **Fotos** nach `bilder-original/` legen (Dateiname = Bildplatz), dann `npm run bilder`:
       `hero` (Hochformat, Pasta oder Gastraum), `wein` (quadratisch), `kueche-pasta`, `kueche-pizza`,
       `kueche-fisch`, `gastraum`, `gastraum-weit` (Panorama), `team` (Hochformat), `galerie-1` bis `galerie-9`.
       Nur Fotos mit Nutzungsrecht (eigene, vom Restaurant, vom Fotografen). Bis dahin zeigen die Rahmen
       eine ruhige Fläche mit Beschreibung. Social-Vorschau: `src/og.svg` anpassen oder `public/assets/img/og.jpg`
       (1200 × 630) ersetzen.
-- [ ] **Speisekarte und Preise** in `src/speisekarte.mjs` mit der aktuellen Karte abgleichen, optional PDF
-      verlinken (`KARTE_PDF`).
+- [ ] **Speisekarte** in `src/speisekarte.mjs` mit der aktuellen Karte abgleichen (Preise werden bewusst nicht
+      gezeigt), optional PDF verlinken (`KARTE_PDF`).
+- [ ] **Google-Sternewert** in `src/site.mjs` (`googleBewertung`) prüfen; mit Places-API-Schlüssel kommt er live.
 - [ ] **Impressum:** Rechtsform, USt-IdNr.; **Datenschutz:** Datum, Hoster; **AGB:** Stornoregel für
       Gruppen, Zahlungsarten. Rechtstexte bitte prüfen lassen.
 - [ ] Öffnungszeiten, Koordinaten, Facebook-/Instagram-Link in `src/site.mjs`.

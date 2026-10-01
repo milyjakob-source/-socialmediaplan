@@ -1,5 +1,5 @@
 // Google-Bewertungen: kommen über das eigene Apps Script (der API-Schlüssel bleibt dort).
-// Ohne Skript zeigt der Abschnitt nur die Links zu Google, keine erfundenen Stimmen.
+// Ohne Skript bleiben Sternewert und die zusammengefassten Lob-Karten aus dem HTML stehen, keine erfundenen Zitate.
 (function () {
   'use strict';
   var CFG = window.TABANO_CONFIG || {};
@@ -36,16 +36,15 @@
       document.querySelector('[data-rating-stars]').innerHTML = stars(data.rating);
       document.querySelector('[data-rating-stars]').setAttribute('aria-label', data.rating.toFixed(1).replace('.', ',') + ' von 5 Sternen');
       document.querySelector('[data-rating-count]').textContent =
-        data.count ? 'aus ' + data.count.toLocaleString('de-DE') + ' Google-Bewertungen' : 'auf Google';
+        data.count ? 'aus ' + data.count.toLocaleString('de-DE') + ' Google-Bewertungen' : 'von 5 Sternen auf Google';
       rating.hidden = false;
     }
     var reviews = (data.reviews || []).filter(function (r) {
       return r.text && r.rating >= 4;
     });
-    if (!reviews.length) {
-      track.remove();
-      return;
-    }
+    if (!reviews.length) return;
+    var note = document.querySelector('[data-reviews-note]');
+    if (note) note.textContent = 'Aktuelle Bewertungen von Google, die besten zuerst.';
     track.innerHTML = reviews
       .map(function (r) {
         return (
@@ -61,9 +60,8 @@
       .join('');
   }
 
-  function fail() {
-    track.remove();
-  }
+  // Ohne Live-Daten bleiben die Karten „Das loben Gäste“ und die Sterne aus dem HTML stehen.
+  function fail() {}
 
   if (!window.tabanoGoogle) return fail();
   window.tabanoGoogle().then(function (res) {

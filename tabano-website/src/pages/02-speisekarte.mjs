@@ -7,7 +7,6 @@ const TAGS = {
   gf: [icon('check'), 'Glutenfrei auf Anfrage'],
   haus: [icon('star'), 'Empfehlung'],
 };
-const preis = (p) => (typeof p === 'number' ? p.toFixed(2).replace('.', ',') + ' €' : '');
 
 function menuJsonLd() {
   return {
@@ -22,7 +21,6 @@ function menuJsonLd() {
         '@type': 'MenuItem',
         name: g.name,
         description: g.text,
-        ...(typeof g.preis === 'number' ? { offers: { '@type': 'Offer', price: g.preis.toFixed(2), priceCurrency: 'EUR' } } : {}),
         ...(g.tags?.includes('veg') ? { suitableForDiet: 'https://schema.org/VegetarianDiet' } : {}),
       })),
     })),
@@ -52,7 +50,7 @@ export default {
   <div>
     <div class="menu-note reveal">
       ${icon('warning')}
-      <p>Informationen zu Allergenen und Zusatzstoffen erhalten Sie bei unserem Service. Viele Gerichte bereiten wir auf Wunsch vegetarisch oder glutenfrei zu. Preise inkl. MwSt.; Änderungen vorbehalten.</p>
+      <p>Informationen zu Allergenen und Zusatzstoffen erhalten Sie bei unserem Service. Viele Gerichte bereiten wir auf Wunsch vegetarisch oder glutenfrei zu. Die vollständige Karte mit Preisen und Tagesgerichten bekommen Sie bei uns im Restaurant.</p>
     </div>
     ${KARTE.map(
       (k) => `<section class="menu-section" id="${k.id}" aria-labelledby="h-${k.id}">
@@ -63,7 +61,6 @@ export default {
           .map(
             (g) => `<li class="dish">
           <h3>${esc(g.name)}</h3>
-          <span class="price">${preis(g.preis)}</span>
           <p>${esc(g.text)}</p>
           ${g.tags?.length ? `<div class="tags">${g.tags.map((t) => `<span class="tag">${TAGS[t][0]}${TAGS[t][1]}</span>`).join('')}</div>` : ''}
         </li>`,

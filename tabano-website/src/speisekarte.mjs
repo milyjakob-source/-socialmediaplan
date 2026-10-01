@@ -1,6 +1,6 @@
-// Auszug aus der Karte. Gerichte und Preise stammen aus öffentlichen Quellen (alte Website, Presse,
+// Auszug aus der Karte. Gerichte stammen aus öffentlichen Quellen (alte Website, Presse,
 // Speisekarten-Portale) und sind vor dem Livegang mit dem Restaurant abzugleichen. PRÜFEN
-// preis: Zahl in Euro oder leer lassen, dann wird kein Preis gezeigt.
+// Preise werden bewusst nicht gezeigt; die aktuelle Karte mit Preisen gibt es im Restaurant.
 // tags: 'veg' (vegetarisch), 'gf' (glutenfrei auf Anfrage), 'haus' (Empfehlung des Hauses)
 
 export const KARTE_PDF = ''; // z. B. '../assets/speisekarte.pdf', dann erscheint ein Download-Knopf
@@ -11,8 +11,8 @@ export const KARTE = [
     titel: 'Antipasti',
     intro: 'Zum Teilen oder als Auftakt.',
     gerichte: [
-      { name: 'Bruschetta Classica', text: 'Geröstetes Brot mit Tomaten, Knoblauch, Basilikum und Olivenöl', preis: 5.5, tags: ['veg'] },
-      { name: 'Antipasto misto', text: 'Auswahl italienischer Vorspeisen, wechselnd nach Saison', preis: 8.9, tags: ['haus'] },
+      { name: 'Bruschetta Classica', text: 'Geröstetes Brot mit Tomaten, Knoblauch, Basilikum und Olivenöl', tags: ['veg'] },
+      { name: 'Antipasto misto', text: 'Auswahl italienischer Vorspeisen, wechselnd nach Saison', tags: ['haus'] },
     ],
   },
   {
@@ -32,8 +32,8 @@ export const KARTE = [
     titel: 'Pizza',
     intro: 'Die Klassiker aus dem Ofen.',
     gerichte: [
-      { name: 'Pizza Margherita', text: 'Tomatensauce, Mozzarella und frisches Basilikum', preis: 7.9, tags: ['veg'] },
-      { name: 'Pizza Quattro Stagioni', text: 'Tomatensauce, Mozzarella, Champignons, Artischocken, Schinken und Oliven', preis: 10.5 },
+      { name: 'Pizza Margherita', text: 'Tomatensauce, Mozzarella und frisches Basilikum', tags: ['veg'] },
+      { name: 'Pizza Quattro Stagioni', text: 'Tomatensauce, Mozzarella, Champignons, Artischocken, Schinken und Oliven' },
     ],
   },
   {
@@ -41,7 +41,7 @@ export const KARTE = [
     titel: 'Pesce',
     intro: 'Fisch nach Marktlage.',
     gerichte: [
-      { name: 'Branzino al forno', text: 'Wolfsbarsch aus dem Ofen mit gemischtem Salat', preis: 18, tags: ['gf', 'haus'] },
+      { name: 'Branzino al forno', text: 'Wolfsbarsch aus dem Ofen mit gemischtem Salat', tags: ['gf', 'haus'] },
     ],
   },
   {
@@ -50,8 +50,8 @@ export const KARTE = [
     intro: 'Kalb und Rind, klassisch zubereitet.',
     gerichte: [
       { name: 'Saltimbocca alla Romana', text: 'Kalbsschnitzel mit Parmaschinken und Salbei in Weißweinsauce' },
-      { name: 'Scaloppina al Limone', text: 'Kalbsschnitzel in Zitronensauce', preis: 15.5 },
-      { name: 'Filetto di Manzo alla griglia', text: 'Gegrilltes Rinderfilet', preis: 18.9, tags: ['gf'] },
+      { name: 'Scaloppina al Limone', text: 'Kalbsschnitzel in Zitronensauce' },
+      { name: 'Filetto di Manzo alla griglia', text: 'Gegrilltes Rinderfilet', tags: ['gf'] },
     ],
   },
   {
@@ -59,8 +59,8 @@ export const KARTE = [
     titel: 'Dolci',
     intro: 'Zum Schluss etwas Süßes.',
     gerichte: [
-      { name: 'Tiramisù della casa', text: 'Hausgemacht, mit einer Prise Kakao', preis: 6.5, tags: ['veg', 'haus'] },
-      { name: 'Panna Cotta alla fragola', text: 'Mit frischen Erdbeeren', preis: 5.9, tags: ['veg', 'gf'] },
+      { name: 'Tiramisù della casa', text: 'Hausgemacht, mit einer Prise Kakao', tags: ['veg', 'haus'] },
+      { name: 'Panna Cotta alla fragola', text: 'Mit frischen Erdbeeren', tags: ['veg', 'gf'] },
     ],
   },
 ];

@@ -488,6 +488,9 @@ p {
 .media[data-ratio='wide'] {
   aspect-ratio: 21 / 9;
 }
+.media picture {
+  display: block;
+}
 .media picture,
 .media img {
   width: 100%;
@@ -1100,7 +1103,7 @@ p {
 }
 .dish {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
   gap: 4px 16px;
   padding: 22px 24px;
   border-radius: var(--radius);
@@ -1252,18 +1255,19 @@ p {
 
 /* Galerie: Mauerwerk mit Spalten. */
 .gallery {
-  columns: 3 280px;
+  columns: 2 300px;
   column-gap: 16px;
+}
+.gallery .media {
+  aspect-ratio: auto;
+}
+.gallery .media picture,
+.gallery .media img {
+  height: auto;
 }
 .gallery .media {
   break-inside: avoid;
   margin-bottom: 16px;
-}
-.gallery .media:nth-child(3n + 1) {
-  aspect-ratio: 4 / 5;
-}
-.gallery .media:nth-child(4n + 2) {
-  aspect-ratio: 1;
 }
 .gallery figcaption {
   position: absolute;
@@ -1857,12 +1861,15 @@ textarea.input {
   .js .reveal-stagger.is-in > :nth-child(n + 7) { transition-delay: 340ms; }
 
   /* Bild-Enthüllung von unten, einmal beim Hereinscrollen. */
-  .js .reveal-clip {
-    clip-path: inset(0 0 100% 0 round var(--radius));
+  /* Das Bild im Rahmen wird beschnitten, nicht der Rahmen selbst: Ein ganz weggeschnittener Rahmen
+     meldet dem IntersectionObserver nie, dass er sichtbar ist, und bliebe für immer leer. */
+  .js .reveal-clip > picture {
+    display: block;
+    clip-path: inset(0 0 100% 0);
     transition: clip-path 1100ms var(--ease-in-out);
   }
-  .js .reveal-clip.is-in {
-    clip-path: inset(0 0 0 0 round var(--radius));
+  .js .reveal-clip.is-in > picture {
+    clip-path: inset(0 0 0 0);
   }
 
   /* Hero beim Laden: Text zuerst, dann das Bild. */
@@ -1992,4 +1999,66 @@ textarea.input {
 .tile .photo-credit {
   top: 10px;
   bottom: auto;
+}
+
+/* Kacheln ohne Foto: Farbfläche mit Icon statt leerem Bildrahmen. */
+.tile-plain {
+  background: var(--tint);
+  color: var(--ink);
+  justify-content: space-between;
+}
+.tile-plain::after {
+  display: none;
+}
+.tile-plain .tile-body p {
+  color: var(--muted);
+}
+.tile-accent {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.tile-accent .tile-body p {
+  color: var(--on-accent);
+  opacity: 0.88;
+}
+.tile-icon {
+  width: 36px;
+  height: 36px;
+  margin: clamp(20px, 2.4vw, 32px) clamp(20px, 2.4vw, 32px) 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tile-plain {
+    transition: transform 240ms var(--ease-out);
+  }
+  .tile-plain:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* Bewertungen: zusammengefasstes Lob, bis echte Rezensionen geladen sind. */
+.review-highlight {
+  grid-template-rows: auto auto 1fr auto;
+  gap: 12px;
+}
+.review-highlight h3 {
+  font-size: 1.25rem;
+}
+.review-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.review-icon .icon {
+  width: 24px;
+  height: 24px;
+}
+.media-focus-top img {
+  object-position: center 30%;
+}
+.media-focus-bottom img {
+  object-position: center 78%;
 }

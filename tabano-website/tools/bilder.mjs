@@ -7,7 +7,7 @@
 // 2. Icons: aus assets/img/favicon.svg entstehen favicon.ico, apple-touch-icon.png und die App-Icons.
 // 3. Social-Vorschau: aus src/og.svg entsteht assets/img/og.jpg (1200 × 630).
 import sharp from 'sharp';
-import { readdirSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname, parse } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -48,7 +48,12 @@ ico.writeUInt32LE(22, 18);
 writeFileSync(join(ROOT, 'public', 'favicon.ico'), Buffer.concat([ico, p32]));
 console.log('✓ Icons');
 
-await sharp(join(ROOT, 'src', 'og.svg'), { density: 144 })
+// Platzhalter FOTO in og.svg wird durch das Außenfoto ersetzt (eingebettet), falls vorhanden.
+let og = readFileSync(join(ROOT, 'src', 'og.svg'), 'utf8');
+const ogFoto = join(OUT, 'aussen-nacht-800.jpg');
+if (existsSync(ogFoto)) og = og.replace('FOTO', 'data:image/jpeg;base64,' + readFileSync(ogFoto).toString('base64'));
+else og = og.replace(/<image[^>]*\/>/, '');
+await sharp(Buffer.from(og), { density: 144 })
   .resize(1200, 630)
   .jpeg({ quality: 82, mozjpeg: true })
   .toFile(join(IMG, 'og.jpg'));

@@ -2,16 +2,12 @@ import { icon, foto } from '../../tools/build.mjs';
 import { SITE } from '../site.mjs';
 
 // Reihenfolge der Galerie. Dateinamen entsprechen den Fotos in bilder-original/ (siehe README).
+// Weitere Fotos: Datei nach bilder-original/, npm run bilder, hier eintragen.
 const BILDER = [
-  ['galerie-1', 'Gastraum am Abend mit gedeckten Tischen'],
-  ['galerie-2', 'Frische Pasta wird angerichtet'],
-  ['galerie-3', 'Pizza aus dem Ofen'],
-  ['galerie-4', 'Die Bar mit Weinregal'],
-  ['galerie-5', 'Antipasti zum Teilen'],
-  ['galerie-6', 'Wolfsbarsch mit Gemüse'],
-  ['galerie-7', 'Tiramisù im Glas'],
-  ['galerie-8', 'Das Eckhaus an der Silberburgstraße von außen'],
-  ['galerie-9', 'Gäste an einem langen Tisch'],
+  ['gastraum', 'Gastraum mit Holztischen, Stuckdecke und Bildern an der Wand'],
+  ['pizza', 'Pizza Margherita mit Basilikum'],
+  ['aussen-nacht', 'Der Eingang bei Nacht mit beleuchtetem Schriftzug'],
+  ['aussen-tag', 'Das Eckhaus an der Silberburgstraße am Abend'],
 ];
 
 export default {

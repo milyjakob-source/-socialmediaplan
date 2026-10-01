@@ -15,7 +15,7 @@ export default {
 </section>
 
 <section class="wrap">
-  ${foto(ctx, 'gastraum-weit', 'Blick in den Gastraum der Trattoria Tabano mit Bar', { ratio: 'wide', cls: 'reveal-clip', sizes: '100vw', eager: true })}
+  ${foto(ctx, 'aussen-nacht', 'Eingang der Trattoria Tabano bei Nacht mit beleuchtetem Schriftzug und Logo', { ratio: 'wide', cls: 'reveal-clip media-focus-top', sizes: '100vw', eager: true })}
 </section>
 
 <section class="section">
@@ -29,7 +29,7 @@ export default {
         <div class="person"><strong>${SITE.inhaber[1]}</strong><span class="muted">Gastgeber</span></div>
       </div>
     </div>
-    ${foto(ctx, 'team', 'Die Gastgeber der Trattoria Tabano', { ratio: 'portrait', sizes: '(min-width: 1024px) 45vw, 100vw' })}
+    ${foto(ctx, 'gastraum', 'Gastraum der Trattoria Tabano mit Holztischen und Bildern an der Wand', { ratio: 'portrait', sizes: '(min-width: 1024px) 45vw, 100vw' })}
   </div>
 </section>
 
