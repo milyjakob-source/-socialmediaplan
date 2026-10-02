@@ -1,6 +1,6 @@
 /*
  * Il Pomodoro, Stuttgart-Süd
- * Farbwelt: kühles Basilikum-Papier und tiefes Basilikum-Schwarz, ein einziger Akzent: Pomodoro.
+ * Farbwelt: kühles Basilikum-Papier und tiefes Basilikum-Schwarz, ein einziger Akzent: das Rot aus dem Logo.
  * Schrift: Bricolage Grotesque für Überschriften, Geist für Text. Beide liegen lokal (keine Google-Fonts-Anfrage).
  * Formen: Knöpfe als Pille, Bilder und Flächen 18px, Eingabefelder 12px.
  */
@@ -29,10 +29,10 @@
   --muted: #4a524d;
   --line: rgb(21 26 23 / 12%);
   --line-strong: rgb(21 26 23 / 24%);
-  --accent: #b3351f;
-  --accent-hover: #9a2c19;
+  --accent: #a82f3e;
+  --accent-hover: #8f2633;
   --on-accent: #fafbf8;
-  --accent-soft: rgb(179 53 31 / 9%);
+  --accent-soft: rgb(168 47 62 / 9%);
   --shadow: 0 1px 2px rgb(21 40 30 / 6%), 0 12px 32px -12px rgb(21 40 30 / 18%);
   --scrim: rgb(12 16 14 / 55%);
   --ok: #2f6b3f;
@@ -56,10 +56,10 @@
   --muted: #a9b1ab;
   --line: rgb(236 238 232 / 11%);
   --line-strong: rgb(236 238 232 / 24%);
-  --accent: #f0785c;
-  --accent-hover: #f5937c;
-  --on-accent: #1a0e0a;
-  --accent-soft: rgb(240 120 92 / 12%);
+  --accent: #ec7f88;
+  --accent-hover: #f19aa1;
+  --on-accent: #1c0b0e;
+  --accent-soft: rgb(236 127 136 / 12%);
   --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 16px 40px -16px rgb(0 0 0 / 60%);
   --scrim: rgb(0 0 0 / 65%);
   --ok: #8fc79c;
@@ -338,7 +338,8 @@ p {
   color: var(--ink);
 }
 .brand-logo {
-  height: 44px;
+  /* Das geschwungene Original-Logo braucht etwas mehr Höhe, damit es lesbar bleibt. */
+  height: 56px;
   width: auto;
 }
 :root[data-theme='dark'] .logo-light,
@@ -2129,4 +2130,10 @@ textarea.input {
 .wk-leer {
   grid-column: 1 / -1;
   color: var(--muted);
+}
+
+@media (max-width: 767px) {
+  .brand-logo {
+    height: 48px;
+  }
 }

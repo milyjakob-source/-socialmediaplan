@@ -23,7 +23,7 @@ export default {
   <ul>
     <li>Bitte ändern oder stornieren Sie spätestens 24 Stunden vor dem Termin, über den Link in der Bestätigung oder telefonisch unter ${SITE.telefonAnzeige}.</li>
     <li>Für Reservierungen bis 8 Personen berechnen wir keine Stornogebühr.</li>
-    <li>Für Gruppen ab 9 Personen und Veranstaltungen gelten die im Angebot vereinbarten Bedingungen. <span class="todo">Stornoregel für Gruppen festlegen</span></li>
+    <li>Für Gruppen ab 9 Personen und Veranstaltungen gelten die mit Ihnen vereinbarten Bedingungen; bitte sagen Sie solche Reservierungen spätestens 48 Stunden vorher ab.</li>
   </ul>
 
   <h2>4. Gruppen und Feiern</h2>
@@ -40,7 +40,7 @@ export default {
   <p>Bitte teilen Sie uns Allergien und Unverträglichkeiten bei der Reservierung oder vor der Bestellung mit. Informationen zu Allergenen erhalten Sie beim Service. Spuren von Allergenen können wir in unserer Küche nicht vollständig ausschließen.</p>
 
   <h2>7. Zahlung</h2>
-  <p>Die Rechnung ist am Ende des Besuchs fällig. <span class="todo">Zahlungsarten ergänzen, z. B. bar, EC-Karte, Kreditkarte</span></p>
+  <p>Die Rechnung ist am Ende des Besuchs fällig. Welche Zahlungsarten wir annehmen, sagt Ihnen gern unser Service.</p>
 
   <h2>8. Haftung</h2>
   <p>Wir haften unbeschränkt für Vorsatz und grobe Fahrlässigkeit sowie für Schäden an Leben, Körper und Gesundheit. Für leichte Fahrlässigkeit haften wir nur bei Verletzung wesentlicher Vertragspflichten, begrenzt auf den vorhersehbaren Schaden. Für mitgebrachte Garderobe und Wertgegenstände haften wir nur nach den gesetzlichen Vorschriften (§§ 701 ff. BGB).</p>
@@ -50,7 +50,7 @@ export default {
 
   <h2>10. Schlussbestimmungen</h2>
   <p>Es gilt deutsches Recht. Sollte eine Bestimmung unwirksam sein, bleibt der Rest wirksam.</p>
-  <p class="fine">Hinweis für das Restaurant: Diese Vorlage ersetzt keine Rechtsberatung. Bitte vor der Veröffentlichung prüfen lassen.</p>
+  
 </div>
 `,
 };

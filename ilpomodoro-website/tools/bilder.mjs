@@ -48,9 +48,9 @@ ico.writeUInt32LE(22, 18);
 writeFileSync(join(ROOT, 'public', 'favicon.ico'), Buffer.concat([ico, p32]));
 console.log('✓ Icons');
 
-// Platzhalter FOTO in og.svg wird durch das Holzofen-Foto ersetzt (eingebettet), falls vorhanden.
+// Platzhalter FOTO in og.svg wird durch das Laternen-Foto ersetzt (eingebettet), falls vorhanden.
 let og = readFileSync(join(ROOT, 'src', 'og.svg'), 'utf8');
-const ogFoto = join(OUT, 'holzofen-800.jpg');
+const ogFoto = join(IN, 'laterne.jpg');
 if (existsSync(ogFoto)) og = og.replace('FOTO', 'data:image/jpeg;base64,' + readFileSync(ogFoto).toString('base64'));
 else og = og.replace(/<image[^>]*\/>/, '');
 await sharp(Buffer.from(og), { density: 144 })

@@ -40,19 +40,19 @@ Die alte Website war aus dieser Arbeitsumgebung nicht abrufbar. Inhalte stammen 
 (Branchenverzeichnisse, Speisekarten-Portale) und sind mit dem Restaurant abzugleichen. Im Code mit
 `PRÜFEN` markiert, auf den Rechtsseiten gelb hervorgehoben.
 
-- [ ] **Logo:** Jetzt steht dort eine typografische Platzhalter-Wortmarke mit Tomate
-      (`tools/logo_platzhalter_pomodoro.py`). Original-Logo als SVG oder PNG nach `public/assets/img/`
-      (`logo.svg` für helle, `logo-dark.svg` für dunkle Seiten, `favicon.svg`), dann `npm run bilder`.
-- [x] **Fotos:** Holzofen, Pizza mit Burrata, Gastraum, Eingang und Plätze draußen sind eingebaut. Weitere Fotos
+- [x] **Logo:** Original-Logo vektorisiert (`tools/logo-vektor.json`, rote und grüne Ebene). Neu erzeugen:
+      `python3 tools/logo_aus_vektor.py`, dann `npm run bilder`. Die Akzentfarbe der Seite ist das Logo-Rot.
+- [x] **Fotos:** Laterne mit Schild, Holzofen, Pizza mit Burrata, Gastraum, Eingang und Plätze draußen sind eingebaut. Weitere Fotos
       nach `bilder-original/` legen (Dateiname = Bildplatz), `npm run bilder`, in Seite oder Galerie eintragen.
       Eingang und Terrasse liegen nur in kleiner Auflösung vor und stehen deshalb nur in der Galerie.
 - [ ] **Speisekarte** in `src/speisekarte.mjs` mit der aktuellen Karte abgleichen (Preise werden bewusst nicht
       gezeigt), optional PDF verlinken (`KARTE_PDF`).
 - [ ] **Wochenkarte:** Google Sheet anlegen und verbinden (siehe unten).
-- [ ] **Öffnungszeiten** in `src/site.mjs` und `public/assets/js/config.js` prüfen; die Quellen widersprechen
-      sich teilweise (Mittag bis 14:00 oder 14:30, abends bis 22:30 oder 0:00).
-- [ ] **Impressum:** Inhaber, Rechtsform, USt-IdNr.; **Datenschutz:** Datum, Hoster; **AGB:** Stornoregel für
-      Gruppen, Zahlungsarten. Rechtstexte bitte prüfen lassen.
+- [x] **Öffnungszeiten** vom Restaurant bestätigt (Mo–Do 11:30–14:00 und 17:30–22:30, Fr bis 23:00,
+      Sa 17:00–23:00, So Ruhetag). Bei Änderungen `src/site.mjs`, `public/assets/js/config.js` und
+      `apps-script/Code.gs` anpassen.
+- [ ] **Impressum:** Inhaber Fabrizio Ricci ist eingetragen. Eine USt-IdNr. bei `ustId` in `src/site.mjs`
+      ergänzen, falls vorhanden. Rechtstexte bitte prüfen lassen.
 - [ ] **E-Mail-Adresse** in `src/site.mjs` prüfen (stammt aus einem Branchenverzeichnis).
 - [ ] **Google-Sternewert** in `src/site.mjs` (`googleBewertung`) prüfen; mit Places-API-Schlüssel kommt er live.
 

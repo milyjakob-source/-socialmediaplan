@@ -17,6 +17,8 @@ export const SITE = {
   geo: { lat: 48.7666, lng: 9.1724 }, // PRÜFEN: Koordinaten grob ermittelt, in Google Maps nachsehen
   inhaber: ['Fabrizio Ricci'], // PRÜFEN: Name aus der E-Mail-Adresse abgeleitet
   seit: 2012,
+  // USt-IdNr. nach § 27a UStG; nur eintragen, wenn vorhanden, dann erscheint sie im Impressum. PRÜFEN
+  ustId: '',
   mapsLink: 'https://www.google.com/maps/search/?api=1&query=Il+Pomodoro+Filderstra%C3%9Fe+25+70180+Stuttgart',
   mapsEmbed: 'https://www.google.com/maps?q=Il+Pomodoro,+Filderstra%C3%9Fe+25,+70180+Stuttgart&output=embed',
   // Link „Bewertung schreiben“: im Google-Unternehmensprofil unter „Rezensionen erhalten“ kopieren. PRÜFEN
@@ -29,7 +31,7 @@ export const SITE = {
   },
 };
 
-// Öffnungszeiten. Wochentag nach JavaScript: 0 = Sonntag … 6 = Samstag. Leere Liste = Ruhetag. PRÜFEN
+// Öffnungszeiten (vom Restaurant bestätigt). Wochentag nach JavaScript: 0 = Sonntag … 6 = Samstag. Leere Liste = Ruhetag.
 export const ZEITEN = [
   { tage: 'Montag bis Donnerstag', kurz: 'Mo-Do', days: [1, 2, 3, 4], slots: [['11:30', '14:00'], ['17:30', '22:30']] },
   { tage: 'Freitag', kurz: 'Fr', days: [5], slots: [['11:30', '14:00'], ['17:30', '23:00']] },

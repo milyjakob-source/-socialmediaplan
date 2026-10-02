@@ -14,7 +14,7 @@ export default {
 </section>
 
 <section class="wrap">
-  ${foto(ctx, 'gastraum', 'Gastraum des Il Pomodoro mit langer Bar, Gästen und Pizzaofen', { ratio: 'wide', cls: 'reveal-clip', sizes: '100vw', eager: true })}
+  ${foto(ctx, 'laterne', 'Laterne mit Tomaten-Logo und Schild „il pomodoro, Pizzeria, Ristorante“ an der Sandsteinfassade', { ratio: 'wide', cls: 'reveal-clip', sizes: '100vw', eager: true })}
 </section>
 
 <section class="section">

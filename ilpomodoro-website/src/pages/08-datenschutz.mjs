@@ -7,7 +7,7 @@ export default {
   title: 'Datenschutzerklärung',
   description: 'Datenschutzerklärung des Il Pomodoro: welche Daten wir bei Besuch, Reservierung und Anfrage verarbeiten und welche Rechte Sie haben.',
   body: () => `
-<section class="wrap page-hero"><h1>Datenschutz&shy;erklärung</h1><p class="lead">Stand: <span class="todo">Datum beim Livegang eintragen</span></p></section>
+<section class="wrap page-hero"><h1>Datenschutz&shy;erklärung</h1><p class="lead">Stand: Oktober 2026</p></section>
 <div class="wrap legal-text">
   <h2>1. Verantwortlicher</h2>
   <p>${SITE.name}, ${SITE.inhaber.join(' und ')}, ${SITE.strasse}, ${SITE.plz} ${SITE.ort}<br>
@@ -18,7 +18,7 @@ export default {
   <p>Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch (Art. 21). Eine erteilte Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen, auf dieser Website über „Cookie-Einstellungen“ im Footer. Sie können sich außerdem bei einer Aufsichtsbehörde beschweren, zum Beispiel beim Landesbeauftragten für den Datenschutz und die Informationsfreiheit Baden-Württemberg, Lautenschlagerstraße 20, 70173 Stuttgart.</p>
 
   <h2>3. Hosting und Server-Protokolle</h2>
-  <p>Diese Website wird bei Netlify, Inc., 101 2nd Street, San Francisco, CA 94105, USA gehostet. <span class="todo">Anbieter anpassen, falls anders gehostet</span> Beim Aufruf verarbeitet der Server technisch notwendige Daten: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Referrer, Browser und Betriebssystem. Das dient der sicheren Auslieferung der Seite (Art. 6 Abs. 1 lit. f DSGVO). Netlify ist unter dem EU-US Data Privacy Framework zertifiziert; zusätzlich haben wir einen Auftragsverarbeitungsvertrag mit Standardvertragsklauseln geschlossen. Protokolle werden nach spätestens 30 Tagen gelöscht.</p>
+  <p>Diese Website wird bei Netlify, Inc., 101 2nd Street, San Francisco, CA 94105, USA gehostet. Beim Aufruf verarbeitet der Server technisch notwendige Daten: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Referrer, Browser und Betriebssystem. Das dient der sicheren Auslieferung der Seite (Art. 6 Abs. 1 lit. f DSGVO). Netlify ist unter dem EU-US Data Privacy Framework zertifiziert; zusätzlich haben wir einen Auftragsverarbeitungsvertrag mit Standardvertragsklauseln geschlossen. Protokolle werden nach spätestens 30 Tagen gelöscht.</p>
   <p>Die Verbindung ist per TLS verschlüsselt (erkennbar an „https://“).</p>
 
   <h2>4. Speicher im Browser</h2>

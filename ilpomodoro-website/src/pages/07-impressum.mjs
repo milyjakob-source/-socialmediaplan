@@ -10,8 +10,8 @@ export default {
 <section class="wrap page-hero"><h1>Impressum</h1></section>
 <div class="wrap legal-text">
   <h2>Angaben gemäß § 5 DDG</h2>
-  <p>${SITE.name}<br>
-  ${SITE.inhaber.join(' und ')} <span class="todo">Inhaber und Rechtsform prüfen</span><br>
+  <p>${SITE.name}, Pizzeria und Ristorante<br>
+  Inhaber: ${SITE.inhaber.join(', ')}<br>
   ${SITE.strasse}<br>
   ${SITE.plz} ${SITE.ort}</p>
 
@@ -19,12 +19,9 @@ export default {
   <p>Telefon: <a href="tel:${SITE.telefon.replace(/\s/g, '')}">${SITE.telefonAnzeige}</a><br>
   E-Mail: <a href="mailto:${SITE.email}">${SITE.email}</a></p>
 
-  <h2>Vertreten durch</h2>
-  <p>${SITE.inhaber.join(', ')}</p>
-
-  <h2>Umsatzsteuer</h2>
-  <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz: <span class="todo">USt-IdNr. ergänzen</span></p>
-
+  ${SITE.ustId ? `<h2>Umsatzsteuer</h2>
+  <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz: ${SITE.ustId}</p>
+` : ''}
   <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
   <p>${SITE.inhaber[0]}, ${SITE.strasse}, ${SITE.plz} ${SITE.ort}</p>
 

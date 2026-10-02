@@ -4,6 +4,7 @@ import { SITE } from '../site.mjs';
 // Reihenfolge der Galerie. Dateinamen entsprechen den Fotos in bilder-original/ (siehe README).
 // Weitere Fotos: Datei nach bilder-original/, npm run bilder, hier eintragen.
 const BILDER = [
+  ['laterne', 'Laterne und Schild an der Sandsteinfassade an der Filderstraße'],
   ['gastraum', 'Voller Gastraum mit langer Bar und Pizzaofen'],
   ['pizza-burrata', 'Pizza mit Burrata, Pistazie und Basilikum'],
   ['holzofen', 'Feuer im Holzofen'],

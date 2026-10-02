@@ -90,8 +90,8 @@ function header(page, ctx) {
 <header class="site-header" data-header>
   <div class="wrap header-row">
     <a class="brand" href="${r}" aria-label="${esc(SITE.name)}, zur Startseite">
-      <img class="brand-logo logo-light" src="${r}assets/img/logo.svg" alt="" width="156" height="44">
-      <img class="brand-logo logo-dark" src="${r}assets/img/logo-dark.svg" alt="" width="156" height="44">
+      <img class="brand-logo logo-light" src="${r}assets/img/logo.svg" alt="" width="173" height="46">
+      <img class="brand-logo logo-dark" src="${r}assets/img/logo-dark.svg" alt="" width="173" height="46">
     </a>
     <nav class="nav" aria-label="Hauptnavigation" id="hauptnavigation" data-nav>
       <ul>${links}</ul>
@@ -123,8 +123,8 @@ function footer(ctx) {
   <div class="wrap footer-grid">
     <div class="footer-brand">
       <span class="brand">
-        <img class="brand-logo logo-light" src="${r}assets/img/logo.svg" alt="${esc(SITE.name)}" width="156" height="44" loading="lazy">
-        <img class="brand-logo logo-dark" src="${r}assets/img/logo-dark.svg" alt="${esc(SITE.name)}" width="156" height="44" loading="lazy">
+        <img class="brand-logo logo-light" src="${r}assets/img/logo.svg" alt="${esc(SITE.name)}" width="173" height="46" loading="lazy">
+        <img class="brand-logo logo-dark" src="${r}assets/img/logo-dark.svg" alt="${esc(SITE.name)}" width="173" height="46" loading="lazy">
       </span>
       <p>${SITE.claim}.</p>
       ${social ? `<div class="social">${social}</div>` : ''}
