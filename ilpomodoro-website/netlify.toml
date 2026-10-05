@@ -1,5 +1,5 @@
 # Netlify: veröffentlicht den Ordner public/ so, wie er im Repo liegt (kein Build-Schritt nötig).
-# Base directory in Netlify: ilpomodoro-website (bzw. leer, wenn die Seite in einem eigenen Repo liegt)
+# Base directory in Netlify: leer lassen (Repo-Wurzel)
 [build]
   publish = "public"
   command = ""
