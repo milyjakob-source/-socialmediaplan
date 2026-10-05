@@ -36,6 +36,13 @@ Gespeichert wird in einem eigenen Google Sheet über eine Apps-Script-Web-App (E
 `apps-script/social-kunde/README.md`, Adresse in `src/tintenblut/config.ts`). Ohne sie läuft die Seite als Vorschau.
 Ein weiterer Kunde: Ordner `src/tintenblut` kopieren, Profil und Startplan ersetzen, Eintrag in `vite.config.ts`.
 
+## Kunden-Website: Trattoria Tabano
+
+Unter `tabano-website/` liegt die neue Website der Trattoria Tabano (Stuttgart-West): statische Seiten
+mit Hell-/Dunkelmodus, Online-Reservierung über Google Apps Script (Tabelle, Kalender, Bestätigungsmail),
+Google-Bewertungen und allen Rechtsseiten. Sie hat ein eigenes `package.json` und wird separat auf Netlify
+veröffentlicht; Anleitung und offene Punkte in `tabano-website/README.md`.
+
 ## Einrichtung (einmalig)
 
 ### 1. Google Cloud: OAuth-Client anlegen
