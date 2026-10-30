@@ -6,3 +6,7 @@ dist/
 *.log
 *.tsbuildinfo
 .claude/
+tabano-vorschau.zip
+ilpomodoro-vorschau.zip
+ilpomodoro-website/vorschau-*.png
+ilpomodoro-west-vorschau.zip
