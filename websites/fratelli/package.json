@@ -1,0 +1,17 @@
+{
+  "name": "fratelli-website",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Website der Osteria Fratelli, Stuttgart-Degerloch",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "bilder": "node tools/bilder.mjs",
+    "logo": "python3 tools/logo.py",
+    "pruefen": "node tools/pruefen.mjs",
+    "vorschau": "npx --yes serve public -l 4173"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
+  }
+}
